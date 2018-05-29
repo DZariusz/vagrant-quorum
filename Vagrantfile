@@ -6,47 +6,25 @@ Vagrant.configure(2) do |config|
 
 
 
-    (1..7).each do |i|
-        # Defining VM properties
-        config.vm.define "ipfs#{i}" do |machine|
-
-            machine.vm.box = "ubuntu/xenial64"
-            machine.vm.network "private_network", ip: "192.168.7.7#{i}"
-            # in case of issues, please switch to DHCP:
-            # machine.vm.network "private_network", type: "dhcp"
-            machine.vm.hostname = "ipfs#{i}"
-
-
-            machine.vm.network :forwarded_port, guest: 4001, host: "4#{i}01", auto_correct: true
-            machine.vm.network :forwarded_port, guest: 5001, host: "5#{i}01", auto_correct: true
-            machine.vm.network :forwarded_port, guest: 8080, host: "8#{i}80", auto_correct: true
-
-
-            machine.vm.provider "virtualbox" do |vb|
-                vb.name = "ipfs#{i}"
-                vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-                vb.customize ["modifyvm", :id, "--memory", 512]
-            end
-
-            machine.vm.provision "shell", path: "vagrant/ipfs.sh"
-        end
-    end
-
-
     config.vm.define "quorum", primary: true do |quorum|
 
         quorum.vm.box = "ubuntu/xenial64"
         quorum.vm.network "private_network", ip: "192.168.7.4"
-        quorum.vm.provision :shell, path: "vagrant/quorum.sh"
+        # in case of issues, please switch to DHCP:
+        # machine.vm.network "private_network", type: "dhcp"
+        quorum.vm.provision :shell, path: "vagrant/quorum-ipfs.sh"
 
         # if you need shared folder, then adjust the paths below or comment it out
         quorum.vm.synced_folder "D:/wamp64/www/s/surf-live", "/home/vagrant/surf-live", nfs: true, nfs_udp: false, create: true
-        quorum.vm.synced_folder "D:/wamp64/www/s/surf-live/quorum-examples", "/home/vagrant/quorum-examples", nfs: true, nfs_udp: false, create: true
+        # for some reasons when I shared this filder, quorum examples stop working, maybe need to check paths
+        # quorum.vm.synced_folder "D:/wamp64/www/s/surf-live/quorum-examples", "/home/vagrant/quorum-examples", nfs: true, nfs_udp: false, create: true
 
 
         # vagrant is the default username
         ## config.ssh.username = "vagrant"
         ## config.ssh.password = ""
+
+
 
         # ports for each Quorum node
         quorum.vm.network "forwarded_port", guest: 22001, host: 22001
@@ -70,6 +48,7 @@ Vagrant.configure(2) do |config|
 
         quorum.vm.provider "virtualbox" do |v|
             v.name = "quorum"
+            v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
             v.memory = 4096
         end
     end

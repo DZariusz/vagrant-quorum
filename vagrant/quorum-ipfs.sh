@@ -41,18 +41,17 @@ cp -r /vagrant/examples /home/vagrant/quorum-examples
 chown -R vagrant:vagrant /home/vagrant/quorum /home/vagrant/quorum-examples
 
 
-# istambul setup - something is wrong here, this must be called manually after vagrant setup
-# cd /home/vagrant/quorum-examples/7nodes
-#./istanbul-init.sh
-#./istanbul-start.sh
-#./runscript.sh private-contract.js
+
+# IPFS
+curl -LO https://dist.ipfs.io/go-ipfs/v0.4.15/go-ipfs_v0.4.15_linux-amd64.tar.gz
+tar -zxvf go-ipfs_v0.4.15_linux-amd64.tar.gz
+sudo mv go-ipfs/ipfs /usr/local/bin/
 
 
 # done!
-banner "Quorum"
+banner "QuorumIPFS"
 echo
 echo 'The Quorum vagrant instance has been provisioned. Examples are available in ~/quorum-examples inside the instance.'
 echo "Use 'vagrant ssh' to open a terminal, 'vagrant suspend' to stop the instance, and 'vagrant destroy' to remove it."
-echo
-echo "Istanbul is initiated, test transaction is done (you can check the logs). You can start nodes by running './istanbul-start.sh' in 'quorum-examples/7nodes'."
+
 

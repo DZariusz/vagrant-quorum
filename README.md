@@ -26,7 +26,7 @@ From this example one can test consensus, privacy, and all the expected function
 [__Note__: This links to an external repo which you will need to clone, thanks to @rsarres for this contribution!] 
 Starts up a set of 5 nodes that simulates a Real-time Gross Setlement environment with 3 banks, 
 one regulator (typically a central bank) and an observer that cannot access the private data.
-* 7 machines for IPFS
+* IPFS
 
 
 **Important note**: Any account/encryption keys contained in this repository are for
@@ -88,4 +88,13 @@ IPFS nodes are installed on other 7 vms. Namer of machines are `ipfsX` where X i
 Ports for IPFS should be redirected. 
 
 To get started you can check this [ipfs.io/docs/getting-started/](https://ipfs.io/docs/getting-started/)
+
+To quick verify if all is working good you can do this:
+
+```
+cd ~
+ipfs init
+ipfs daemon
+ipfs cat /ipfs/QmW2WQi7j6c7UgJTarActp7tDNikE4B2qXtFCfLPdsgaTQ/cat.jpg > cat.jpg
+```
  
