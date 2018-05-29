@@ -1,0 +1,11 @@
+
+# temp
+qdata
+
+# vagrant
+.vagrant
+*.log
+
+*node_modules*
+
+.idea
